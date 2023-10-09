@@ -1,0 +1,19 @@
+{% extends 'layout.html'%}
+{%block tittle%}
+    Crear Articulo
+{%endblock%}
+{% block content %}
+    <h1>Bienvenido a Django | uso de models</h1>
+    <h3>Crear Articulo</h3>
+    <form action={% url 'store_article' %} method="POST"> 
+        {% csrf_token %}
+        <label for="tittle">Ingrese el titulo :</label>
+        <input type="text" name="tittle" placeholder="Titulo">
+        <label for="content">Ingrese el Contenido :</label>
+        <textarea name="content" placeholder="Contenido"></textarea>
+        <label for="public">Es Publicado : </label>
+        <input type="checkbox" name="public">
+        <input type="submit" value ="Guardar articulo">
+    </form>
+{%endblock%}
+

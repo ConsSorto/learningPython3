@@ -1,0 +1,34 @@
+{% extends 'layout.html'%}
+{%block tittle%}
+    Articulos
+{%endblock%}
+{% block content %}
+    <h1>Bienvenido a Django | uso de models</h1>
+    <h3>Articulos</h3>
+    {%if messages%}
+        {% for message in messages %}
+            <strong>{{message}}</strong>
+        {% endfor %}
+    {% endif%}
+    
+    <table>
+        <thead>
+            <th>Titulo</th>
+            <th>Contenido</th>
+            <th>Publicado</th>
+        </thead>
+    <tbody>
+        
+        {%for articulo in articulos%}
+        <tr>
+            <td>{{articulo.tittle}}</td>
+            <td>{{articulo.content}}</td>
+            <td>{{articulo.public}}</td>
+        </tr>
+        {%endfor%}
+        
+    </tbody>
+    </table>
+  
+{%endblock%}
+

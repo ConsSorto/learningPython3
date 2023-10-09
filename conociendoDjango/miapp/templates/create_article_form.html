@@ -1,0 +1,17 @@
+{% extends 'layout.html'%}
+{%block tittle%}
+    Crear Articulo desde Form 
+{%endblock%}
+{% block content %}
+    <h1>Bienvenido a Django | uso de models</h1>
+    <h3>Crear Articulo desde Form</h3>
+    {%if form.errors %}
+        <strong style="textcolor=red">Hay errores en el formulario</strong>
+    {%endif%}
+    <form action={% url 'store_article_form' %} method="POST"> 
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value ="Guardar articulo">
+    </form>
+{%endblock%}
+

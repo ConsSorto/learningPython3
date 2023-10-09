@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block tittle%} {%endblock%}</title>
+</head>
+<body>
+    <h1>Este es un sitio web para aprender Django | Cons Sorto</h1>
+    <hr/>
+        <h3>Menu Layout</h3>
+        <ul>
+            <li>
+                <a href="/">Inicio</a>
+            </li>
+            <li>
+                <a href="/hola-mundo">Hola Mundo</a>
+            </li>
+            <li>
+                <a href="/pagina-nueva">Pagina Nueva</a>
+            </li>
+            <li>
+                <a href="/saludo/ConsSorto">Saludo</a>
+            </li>
+            <li>
+                <a href="/redirecionar-index/">Redireccionar</a>
+            </li>     
+            <li>
+                <a href="/index-template/">index con templates</a>
+            </li>   
+            <li>
+                <a href="/hola-mundo-layout/">Hola Mundo Layout</a>
+             </li>  
+             <li>
+                <a href="/herencia-contenido/">Herencia Contenido Layout</a>
+             </li> 
+        </ul>
+    <hr/> 
+    <div id="content">
+    {%block content%} 
+        <strong>Esto es un contenido por defecto</strong>
+    {%endblock%}
+    </div>
+</body>
+</html>
