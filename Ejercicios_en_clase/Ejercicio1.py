@@ -19,6 +19,8 @@ lista_mascotas = []
 indice_mascota_actual = 0
 seguir = True 
 while(seguir):
+    print("\n******************* LIST *******************")
+    print(lista_mascotas)
     try:
         print("\n******************* Menu *******************")
         print("1. Ingresar Mascota")
@@ -40,7 +42,9 @@ while(seguir):
             case 2:
                 print("\n****** Mostrar Mascotas ****** ")
                 contador = 1
+
                 for mascota in lista_mascotas:
+                    print(mascota)
                     mostrar_datos_mascota(contador, mascota)
                     contador += 1
             case 3:
