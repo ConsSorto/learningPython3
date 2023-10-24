@@ -43,7 +43,7 @@ while(seguir):
             case 2:
                 print(f"****** Comidas {len(comidas)} ******")
                 contador = 1
-
+   
                 for comida in comidas:
                     print(f"Comida {contador}")
                     print(mostrar_comida(comida))
@@ -56,7 +56,8 @@ while(seguir):
                 for comida in comidas:
                     if nombre_comida == comida['nombre'] :
                         print(mostrar_comida(comida))    
-                        mostrado = True 
+                        mostrado = True
+                 
                 if not mostrado:
                     print('XXXXX Comida no encontrada XXXXX')
             case 4:
@@ -70,9 +71,9 @@ while(seguir):
                         print(mostrar_comida(comida))    
                         mostrado = True 
                         
-                        if not mostrado:    
-                            indice += 1
-
+                    if not mostrado:    
+                        indice += 1
+                            
                 if not mostrado:
                     print('XXXXX Comida no encontrada XXXXX')
                 else:
@@ -96,6 +97,7 @@ while(seguir):
                             print('XXXXX valor tiene que ser un decimal XXXXX')
                         else:
                             print('Ingrediente ingresado con exito')
+                    
                     comidas[indice]['ingredientes'] = ingredientes
 
             case 5:
@@ -109,8 +111,8 @@ while(seguir):
                         print(mostrar_comida(comida))    
                         mostrado = True 
                         
-                        if not mostrado:    
-                            indice += 1
+                    if not mostrado:    
+                        indice += 1
 
                 if not mostrado:
                     print('XXXXX Comida no encontrada XXXXX')

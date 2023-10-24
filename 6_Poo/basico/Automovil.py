@@ -1,4 +1,12 @@
+"""
+
+self
+
+"""
+
+
 class Automovil:
+        tipo = "automovil"
         puertas = 5
         ruedas = 4
         placa = "HCF12345"
@@ -7,14 +15,18 @@ class Automovil:
         modelo = "corolla"
         velocidad = 0
 
+        def tipo (self):
+             tipo = Automovil.tipo
+             return tipo
+
         def encender(self):
             return "el automovil esta encendido"
 
         def apagar(self):
             return "el automovil esta apagado"
 
-        def acelerar(self):
-            self.velocidad += 1 
+        def acelerar(self, numero):
+            self.velocidad += numero 
             return f"el automovil acelero, velocidad : {self.velocidad}"
 
         def frenar(self):
