@@ -1,8 +1,3 @@
-"""
-
-self
-
-"""
 
 
 class Automovil:
@@ -15,9 +10,8 @@ class Automovil:
         modelo = "corolla"
         velocidad = 0
 
-        def tipo (self):
-             tipo = Automovil.tipo
-             return tipo
+        def gettipo (self):
+             return Automovil.tipo
 
         def encender(self):
             return "el automovil esta encendido"

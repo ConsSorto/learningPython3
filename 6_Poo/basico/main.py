@@ -6,8 +6,6 @@ automivil2 = Automovil()
 miautomovil.marca = "Datsun"
 automivil2.marca = "Nissan"
 
-
-
 print(miautomovil.marca)
 print(automivil2.marca)
 
@@ -16,6 +14,12 @@ automivil2.acelerar(5)
 print(f"Marca : {automivil2.marca} Velocidad : {automivil2.velocidad}")
 print(f"Marca : {miautomovil.marca} Velocidad : {miautomovil.velocidad}")
 
-print(automivil2.tipo())
-print(miautomovil.tipo())
+print(automivil2.gettipo())
+print(miautomovil.gettipo())
+
+Automovil.tipo = "Carro"
+
+print(automivil2.gettipo())
+print(miautomovil.gettipo())
+
 
