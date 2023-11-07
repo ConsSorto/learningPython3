@@ -6,7 +6,6 @@ class Empleado:
         self._numero_empleado = numero_empleado
         self._nombre = nombre
 
-
 class Administrativo(Empleado):
     puesto = None
     oficina = None
