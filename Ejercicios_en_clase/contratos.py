@@ -1,5 +1,13 @@
 from abc import ABC, abstractclassmethod
 
+class Utilidades:
+    @staticmethod
+    def calcular_impuesto(salario):
+        if salario > 5000:
+            return salario * 0.12
+        else:
+            return 500
+
 
 class Persona:
     nombre = None
@@ -9,11 +17,12 @@ class Persona:
  
 class Empleados(Persona):
     salario = None
+    impuesto = None
 
     def __init__(self, nombre, salario):
         super().__init__(nombre)
         self.salario = salario
-
+        self.impuesto = Utilidades.calcular_impuesto(salario)
 
 class Estado:
     nombre = None
@@ -25,7 +34,7 @@ class Estado:
         self.fecha_inicio = fecha_inicio
         self.fecha_fin = fecha_fin
 
-class Contrato:
+class Contrato(ABC):
     emp_responsable = None
     metros = None
     cliente = None
@@ -34,6 +43,7 @@ class Contrato:
     estado = None
     empleados = None
     precio = None
+    utilidad = None
 
     def __init__(self, emp_responsable, metros, cliente, fecha_inicio, fecha_fin, estado, empleados):
         self.emp_responsable = emp_responsable
@@ -50,7 +60,11 @@ class Contrato:
             total += empleado.salario
         
         self.precio= (self.emp_responsable.salario + total) * 2
-
+    
+    
+    @abstractclassmethod
+    def calcular_utilidad(self):
+        pass
 
 
 class AseoDomicilio(Contrato):
@@ -65,8 +79,21 @@ class AseoDomicilio(Contrato):
         self.cocinar = cocinar
         self.cantidad_banos = cantidad_banos
         self.cantidad_habitaciones = cantidad_habitaciones
-       
-        
+    #utilidad para domicilio es 40% si hay mas de dos empleados en caso contrario 30%      
+    
+    def calcular_utilidad(self):
+        print("entro")
+        if len(self.empleados) > 2:
+            print("entro condicion true")
+            self.utilidad = self.precio * 0.40
+        else:
+            print("entro condicion false")
+            self.utilidad = self.precio * 0.30
+        print("finalizo")
+
+
+
+
 class AseoEmpresarial(Contrato):
     mesero = None
     cantidad_banos = None
@@ -87,7 +114,32 @@ empleados = Empleados('Juan Perez', 1000)
 empleados2 = Empleados('Pedro Sanchez', 5000)
 empleados3 = Empleados('Ana Maria', 6000)
 
+print(empleadosR.impuesto)
+print(empleados3.impuesto)
+
+#empleados = [empleados, empleados2, empleados3]
+#empleados = [empleados]
+
+empl = [empleados, empleados2, empleados3]
+
+estado = Estado('Proceso', '20231108', '20231108')
+
+aseo_domiciliario = AseoDomicilio(empleadosR, 10, cliente, '20231201', '20231215', estado, empl, True, True, 5, 4)
+
+aseo_domiciliario.setear_precio()
+
+for emplea in aseo_domiciliario.empleados:
+    print(emplea.nombre)
+
+aseo_domiciliario.calcular_utilidad()
+
+print(aseo_domiciliario.precio)
+print(aseo_domiciliario.utilidad)
+
+
+"""
 empleados = [empleados, empleados2, empleados3]
+
 
 estado = Estado('Proceso', '20231108', '20231108')
 
@@ -106,4 +158,4 @@ aseo_domiciliario.setear_precio()
 
 print(aseo_domiciliario.precio)
 
-print(aseo_empresarial)
+print(aseo_empresarial)"""
