@@ -1,0 +1,92 @@
+1.0
+
+instanlar Django
+
+abrir la consola e ingresar 
+```
+py -m pip install Django
+```
+si da error agregar las variables al PATH y volver a correr el comando
+
+luego no vamos a la carpeta donde vamos a crear nuestros proyectos
+e ingresamos el comando 
+
+django-admin startproject nombreproyecto
+
+luego realizar la migracion inicial
+python manage.py migrate
+
+para levantar el server se ejecuta el comando
+python manage.py runserver
+
+2.0
+
+Django divide cada funcionalidad de una aplicacion y la considera una app, 
+
+para crear una app dentro de nuestra aplicacion seria el comando :
+
+py manage.py startapp nombreapp
+
+3.0
+
+se encuentra inicialmente manejadas dentro de una app en el fichero views
+
+recordar que en Django se usa el modelo MVT modelo vista template, en comparacion
+con el MVC, en el MVT el template hace la vista y la logica de controlador la maneja la vista
+
+en pocas palabra seria una concordancia como la siguiente
+
+M  = M   Modelo
+V   = T   Vista
+C   = V    Controlador
+
+dentro de views de la app se crean las funciones que seran enlazadas por las urls, estas urls se encuentran
+publicadas en el archivo urls.py que se encuentra en la carpeta del archivo principal.
+
+ejemplo del archivo views, no olvidar importar el HttpResponse 
+
+```
+from django.shortcuts import render, HttpResponse
+# Create your views here.
+def hola_mundo(request):
+    return HttpResponse(
+        "<h1>Hola Mundo</h1>"+
+        "<h3>esto es Django con CONS SORTO</h3>"
+    )
+```
+
+4.0
+
+Las rutas estan el archivo urls.py de la carpeta principal 
+las rutas se dirigen a una funcion de un views de un app
+
+Ruta sin parametros  : 
+```
+path('hola-mundo/', views.hola_mundo, name="hola_mundo"),
+```
+
+Para pasar parametros a una ruta se requiera agregar en la ruta el tipo de parametro y el nombre 
+```
+path('saludo/<str: nombre>', views.saludo, name="saludo"),
+```
+en la funcion tambien hay que agregar el parametro para poderlo usar
+```
+def saludo(request, nombre):
+```
+
+Para las rutas con parametros opcionales se deberan crear diferentes rutas para cada caso y en la funcion se agregaran 
+los valores por defecto en el parametro
+
+por ejemplo para el caso de saludo cuando no me den el nombre tendria que tener dos rutas una cuando no lo mande y otra cuando lo mande
+
+primero la funcion quedaria asi 
+```
+def saludo(request, nombre = "Cons"):
+```
+y las rutas
+```
+    path('saludo/', views.saludo, name="saludo"),
+    path('saludo/<str:nombre>/', views.saludo, name="saludo"),
+```
+
+Para redireccion desde hacia otra url, en la vista hay que importa el objeto redirect y en el return de la funcion se deberia por la url o el nombre de la url a la que se va enviar
