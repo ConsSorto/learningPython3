@@ -90,3 +90,284 @@ y las rutas
 ```
 
 Para redireccion desde hacia otra url, en la vista hay que importa el objeto redirect y en el return de la funcion se deberia por la url o el nombre de la url a la que se va enviar
+
+5. Templates
+
+Las templates son archivo html que se crean dentro de una app en un directorio llamado templates,
+
+
+
+para que django pueda verlas es necesario agregar nuestra app al apartado de configuracion que se encuentra en 
+el archivo settings.py que esta en la carpeta principal de nuestro proyecto,  buscamos esta seccion y agregamos nuestra app
+
+```
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'miapp',
+]
+```
+
+luego para poder responder a una peticion con una template en la funcion de la vista tenemos que usar el metodo render
+ recordar  que la template tendra que llamarse igual que el nombre de la funcion que la llama, esto por buenas practicas de programacion en django
+
+```
+def index_template(request):
+    return render(request, "index_template.html")
+```
+
+6. Templates uso de Layouts
+Django usa su propio codigo dentro de las templates esto para facilitarnos la reutilizacion de codigo usando templates
+
+dentro del html nosotros podemos definir bloques que seran sustituidos por codigo enviado desde otras paginas por ejemplo dentro la carpeta template de nuestra app vamos a crear un layout, el inicio de un bloque y el final tenemos que delimitarlos por las instrucciones {%block NOMBREBLOQUE%}     {%endblock%}
+
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block tittle%} {%endblock%}</title>
+</head>
+<body>
+    <h1>Este es un sitio web para aprender Django | Cons Sorto</h1>
+    <hr/>
+        <h3>Menu</h3>
+        <ul>
+            <li>
+                <a href="/">Inicio</a>
+            </li>
+            <li>
+                <a href="/hola-mundo">Hola Mundo</a>
+            </li>
+            <li>
+                <a href="/pagina-nueva">Pagina Nueva</a>
+            </li>
+            <li>
+                <a href="/saludo/ConsSorto">Saludo</a>
+            </li>
+            <li>
+                <a href="/redirecionar-index/">Redireccionar</a>
+            </li>     
+            <li>
+                <a href="/index-template/">index con templates</a>
+            </li>    
+        </ul>
+    <hr/> 
+    <div id="content">
+    {%block content%} 
+    {%endblock%}
+    </div>
+</body>
+</html>
+```
+
+Para usar la layout tenemos que extenderla desde la pagina donde la vamos a usar y en esta pagina podemos usar las sentencias {%block NOMBREBLOQUE%}     {%endblock%} para poder mostrar la informacion
+
+```
+{% extends 'layout.html'%}
+{%block tittle%}
+    Pagina + Layout
+{%endblock%}
+{% block content %}
+    <h1>Bienvenido a Django | uso de layout</h1>
+    <h3>esto es Django con CONS SORTO</h3>
+{%endblock%}
+```
+
+El contenido de un block definido en un layout se puede heredar y agregarle mas contenido, para esto es necesario que el contenido se encuentre en la layout y en el que hereda invocar el contenido de esta forma 
+```
+{{ block.super }}
+```
+
+Layout 
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block tittle%} {%endblock%}</title>
+</head>
+<body>
+    <h1>Este es un sitio web para aprender Django | Cons Sorto</h1>
+    <hr/>
+        <h3>Menu Layout</h3>
+        <ul>
+            <li>
+                <a href="/">Inicio</a>
+            </li>
+            <li>
+                <a href="/hola-mundo">Hola Mundo</a>
+            </li>
+            <li>
+                <a href="/pagina-nueva">Pagina Nueva</a>
+            </li>
+            <li>
+                <a href="/saludo/ConsSorto">Saludo</a>
+            </li>
+            <li>
+                <a href="/redirecionar-index/">Redireccionar</a>
+            </li>     
+            <li>
+                <a href="/index-template/">index con templates</a>
+            </li>   
+            <li>
+                <a href="/hola-mundo-layout/">Hola Mundo Layout</a>
+             </li>  
+        </ul>
+    <hr/> 
+    <div id="content">
+    {%block content%} 
+        <strong>Esto es un contenido por defecto</strong>
+    {%endblock%}
+    </div>
+</body>
+</html>
+```
+
+Aplicacion
+```
+{% extends 'layout.html'%}
+{%block tittle%}
+    Pagina + Herencia
+{%endblock%}
+{% block content %}
+    {{ block.super }}
+    <h1>Bienvenido a Django | uso de layout</h1>
+    <h3>esto es Django con CONS SORTO</h3>
+{%endblock%}
+```
+
+7.
+Los modelos son la capa que interactua directamente con la base de datos, es el orm, los modelos tienen que estar en el archivo models.py dentro de una app, se definen como pequenas clases.
+El modelo contiene la defincion de los campos, Django define los models en singular porque representan un solo registro aunque el modelo define la tabla
+
+```
+from django.db import models
+# Create your models here.
+class Article(models.Model):
+    tittle = models.CharField(max_length=100)
+    content = models.TextField()
+    public = models.BooleanField()
+    created_at = models.models.DateTimeField(auto_now_add=True)
+    update_at = models.models.DateTimeField(auto_now=True)
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    descripton = models.CharField(max_length=100)
+    created_at = models.DateField()
+```
+
+Seguidamente tendremos que crear la migracion para esto nos vamos a la consola e ingresamos el siguiente codigo :
+
+python manage.py makemigrations 
+
+verificar en la carpeta migrations de la app que todo se creo correctamente y es necesario verificar el numero de archivo porque esta sera la version que utilizaremos para generar el sql que se realiza de con el siguiente comando
+
+python manage.py sqlmigrate miapp 0001
+
+si todo sale bien nos deberia mostrar el codigo sql para la creacion de las tablas, luego el paso que sigue es mandar a ejecutar el codigo sql a la base de datos para esto ejecutamos el comando migrate
+
+python manage.py migrate
+
+nos tendria que dar como respuesta lo siguiente
+
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, miapp, sessions
+Running migrations:
+  Applying miapp.0001_initial... OK
+
+
+Para realizar una modificacion al modelo se realiza en el modelo y se siguen los pasos antes mencionados, automaticamente
+django sabe cuando va a hacer un alter y cuando no para poder aplicar los cambios
+
+8  Usar Modelos
+
+Guardar un nuevo registro
+
+para guardar un nuevo registro necesitamos hacerlos desde views, aqui vamos a importar la clase del modelo y luego a darle datos para crearlos en una funcion, para guardarlo recordar utilizar el metodo save()
+
+```
+def crear_articulo(request):
+    articulo = Article(
+        tittle = "Este es un nuevo articulo",
+        content = "este es el contenido del articulo",
+        public =1
+    )
+    articulo.save()
+    return HttpResponse("articulo creado")
+```
+
+
+Obtener un registro de la base de datos
+
+Para obtener un registro de la base de datos necesitamos impotar el modelo y luego la clase y accesar dentro de la clase a los objects y al metodo get, como parametros le daremos el filtro correspondiente al dato que ocupamos
+
+```
+def articulo(request):
+    articulo = Article.objects.get(pk=1, tittle = "Este es un nuevo articulo")
+    return HttpResponse(f"articulo {articulo.tittle}")
+```
+
+
+Editar un Registro
+
+para editar un articulo es necesario primero cargar el articulo mediante get y luego cambiar los valores en cada atributo del objeto y por ultimo usar el metodo save() para guardar los datos.
+
+```
+def editar_articulo(request):
+    articulo = Article.objects.get(pk=1)
+    articulo.tittle = "articulo editado titulo"
+    articulo.content = "articulo editado contenido"
+    articulo.save()
+    
+    return HttpResponse(f"articulo {articulo.tittle}")
+```
+
+
+Obtener todos los registros
+
+Para obtener todos los registros es necesario siempre acceder al model y luego a objects luego a la funcion all()
+
+```
+def articulos(request):
+    articulos = Article.objects.all()
+    
+    return render(request, "articulos.html", {'articulos':articulos})
+```
+
+en vez de all se puede usar order_by('campo'), y si quiero solo un numero de elementos puedo setear un limit seguido de la funcion usando corchertes all()[:1] seria un limit de 1. si se usan ambos parametros el primero dice el indice desde donde se comenzara y el segundo el indice donde terminara.
+
+tambien se puede usar la function filter y dentr usar los lookups para filtrar, por ejemplo 
+
+articulos = Article.objects.filter(pk__gt=12) # filtra todos los registros que su pk sea mayor a12
+articulos = Article.objects.filter(tittle__conteins='articulo') # filtra todos los registros que en su titulo tengan la palabra articulo
+
+Se puede usar la funcion exclude para poder sacar de una lista de registros alguno que no queramos por ejemplo :
+articulos = Article.objects.filter(tittle__conteins='articulo').exclude(pk=2) # filtra todos los registros que en su titulo tengan la palabra articulo y quita o exclulle el pk=2
+
+para ejecutar una consulta con sql puro se usa la funcion raw de los modelos
+
+articulos = Article.objects.raw('select * from miapp.articles where tittle like 'articulo' and id <> 2') # filtra todos los registros que en su titulo tengan la palabra articulo y quita o exclulle el pk=2
+
+por defecto el filter usa el and para realizar sus querys para para poder realizar consultaas usando el or es necesario importar la clase Q y usarla en conjunto con el filter 
+```
+from django.db.models import Q
+```
+
+```
+    articulo = Article.objects.filter(
+        Q(tittle__contains = 'articulo') | Q(id = 1)
+    )
+```
+
+
+Borrar un registro
+
+para borrar un articulo es necesario primero cargar el articulo mediante get y luego llamar al metodo delete().

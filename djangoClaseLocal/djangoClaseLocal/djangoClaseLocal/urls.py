@@ -21,5 +21,7 @@ from miapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('holamundo/', views.HolaMundo, name='hola-mundo'),
-    path('holamundo2/<str:nombre>', views.HolaMundo2, name='hola-mundo'),
+    path('holamundo2/<str:nombre>', views.HolaMundo2, name='hola-mundo2'),
+    path('holamundotemplate/', views.HolaMundoTemplate, name='hola-mundo-template'),
+    path('usolayout/', views.usoLayouts, name='uso-layout'),
 ]
